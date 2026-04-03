@@ -1,31 +1,54 @@
 ---
 name: html-ocr
-version: 0.2.0
-description: >
-  OCR text recognition from HTML files containing images, screenshots, and embedded visual content. HTML OCR extraction, web page image text recognition, optical character recognition for HTML, image-to-text from HTML, HTML screenshot OCR, embedded image text extractor, webpage visual content reader, HTML image content parser, scanned document OCR in HTML, HTML图片文字识别, 网页图片文字提取, HTML OCR识别, 网页OCR工具, 图片内容提取.
-
-  Use when asked to 'OCR text from HTML images', 'extract text from images in HTML', 'read text in HTML screenshots', 'recognize characters in web page images', 'get text from embedded images in HTML file', 'OCR a saved web page with images'. Also handles: 'how do I extract text from images inside HTML?', 'is there a skill that does OCR on HTML files?', 'I want to read text from images embedded in web pages', 'can my agent recognize text in HTML image content?'.
-
-  Solves the problem of inaccessible text trapped inside images within HTML files, inability to search or copy text from HTML screenshots, difficulty extracting information from image-heavy web pages, and scanned documents saved as HTML. Powered by MinerU OCR engine for high-accuracy text recognition. Supports embedded images, screenshots, infographics, and scanned content within HTML documents. Perfect for data extraction, accessibility, archival, and content digitization workflows.
-tags:
-  - html
-  - ocr
-  - text-recognition
-  - image-to-text
-  - content-extraction
-  - screenshot-ocr
-  - mineru
-  - document-processing
-  - web-scraping
-  - optical-character-recognition
-  - html-parser
-  - accessibility
+description: "HTML OCR - use OCR to extract text from HTML files that contain scanned images or image-embedded content using MinerU."
+homepage: https://mineru.net
+metadata: {"openclaw": {"emoji": "📄", "requires": {"bins": ["mineru-open-api"], "env": ["MINERU_TOKEN"]}, "primaryEnv": "MINERU_TOKEN", "install": [{"id": "npm", "kind": "node", "package": "mineru-open-api", "bins": ["mineru-open-api"], "label": "Install via npm"}, {"id": "go", "kind": "go", "package": "github.com/opendatalab/MinerU-Ecosystem/cli/mineru-open-api", "bins": ["mineru-open-api"], "label": "Install via go install", "os": ["darwin", "linux"]}]}}
 ---
 
 # HTML OCR
 
-OCR and extract text from images embedded in HTML files using MinerU.
+Use OCR to extract text from HTML files that contain scanned images or image-embedded content using MinerU.
 
-## Usage
+## Install
 
-Use the mineru tool to perform OCR on HTML files containing images. Provide the local HTML file path and receive extracted text from all embedded images, screenshots, and visual content as clean Markdown.
+```bash
+npm install -g mineru-open-api
+# or via Go (macOS/Linux):
+go install github.com/opendatalab/MinerU-Ecosystem/cli/mineru-open-api@latest
+```
+
+## Quick Start
+
+```bash
+# OCR extraction from local HTML file (requires token)
+mineru-open-api extract page.html --ocr -o ./out/
+
+# With VLM model for better accuracy
+mineru-open-api extract page.html --ocr --model vlm -o ./out/
+```
+
+## Authentication
+
+Token required:
+
+```bash
+mineru-open-api auth             # Interactive token setup
+export MINERU_TOKEN="your-token" # Or via environment variable
+```
+
+Create token at: https://mineru.net/apiManage/token
+
+## Capabilities
+
+- Supported input: local .html file
+- OCR requires `extract` with token — not available in `flash-extract`
+- Use `--ocr` flag to enable OCR on image-embedded content in HTML
+- Use `--model vlm` for complex or mixed-content pages
+
+## Notes
+
+- HTML is NOT supported by `flash-extract`; use `extract` with token
+- If the HTML has normal text content, OCR is not needed — use `html-extract` instead
+- Output goes to stdout by default; use `-o <dir>` to save to a file or directory
+- All progress/status messages go to stderr; document content goes to stdout
+- MinerU is open-source by OpenDataLab (Shanghai AI Lab): https://github.com/opendatalab/MinerU
